@@ -30,7 +30,7 @@ export default function VariableForm({ variables, content, onClose }: VariableFo
 
     navigator.clipboard.writeText(finalContent)
     toast({
-      title: "Prompt Copied",
+      title: "Prompt 已复制",
       description: "The prompt with filled variables has been copied to your clipboard.",
     })
     onClose()
