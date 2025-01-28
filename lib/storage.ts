@@ -1,11 +1,14 @@
 import type { Prompt } from "@/types"
 import { supabase } from './supabase'
+import { auth } from "@clerk/nextjs"
 
 export const getAllPrompts = async (): Promise<Prompt[]> => {
+  const { userId } = auth()
   try {
     const { data, error } = await supabase
       .from('prompts')
       .select('*')
+      .eq('user_id', userId)
       .order('created_at', { ascending: false })
     
     if (error) {
@@ -20,11 +23,13 @@ export const getAllPrompts = async (): Promise<Prompt[]> => {
 }
 
 export const addPrompt = async (prompt: Prompt): Promise<void> => {
+  const { userId } = auth()
   try {
     const { error } = await supabase
       .from('prompts')
       .insert([{
         ...prompt,
+        user_id: userId,
         created_at: new Date().toISOString()
       }])
     
